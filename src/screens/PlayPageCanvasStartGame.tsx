@@ -14,12 +14,15 @@ export interface PlayPageCanvasStartGameProps {
   actions?: {
     "start-game-1"?: () => void;
   };
-
+  /** STATE_HIGH_SCORE value bound to OBS_START_GAME_HIGH_SCORE_DISPLAY. */
+  highScore?: number | null;
+  /** STATE_GAME_MESSAGE value bound to OBS_START_GAME_START_FEEDBACK. */
+  gameMessage?: string;
 }
 
 export type PlayPageCanvasStartGameActionCallbacks = NonNullable<PlayPageCanvasStartGameProps["actions"]>;
 
-export function PlayPageCanvasStartGame({ actions }: PlayPageCanvasStartGameProps) {
+export function PlayPageCanvasStartGame({ actions, highScore = null, gameMessage = "" }: PlayPageCanvasStartGameProps) {
   return (
     <>
       {/* Root Surface: SURF_PLAY_PAGE */}
@@ -47,7 +50,7 @@ export function PlayPageCanvasStartGame({ actions }: PlayPageCanvasStartGameProp
               <div className="bg-slate-900 border border-slate-800 rounded-xl px-4 py-2 text-right">
                 <span className="block text-[10px] uppercase font-semibold tracking-wider text-slate-400">High Score</span>
                 {/* OBS_START_GAME_HIGH_SCORE_DISPLAY: role="status", name="High score", expected before: null / after: 0 */}
-                <div className="text-lg font-mono font-bold text-amber-400" data-setfarm-element-ref="E000002" role="status" aria-label="High score" data-observable-refs="OBS_START_GAME_HIGH_SCORE_DISPLAY"></div>
+                <div className="text-lg font-mono font-bold text-amber-400" data-setfarm-element-ref="E000002" role="status" aria-label="High score" data-observable-refs="OBS_START_GAME_HIGH_SCORE_DISPLAY" data-value={typeof highScore === "number" ? String(highScore) : undefined}>{typeof highScore === "number" ? String(highScore) : ""}</div>
               </div>
             </div>
           </header>
@@ -96,7 +99,7 @@ export function PlayPageCanvasStartGame({ actions }: PlayPageCanvasStartGameProp
                   {/* OBS_START_GAME_START_FEEDBACK: role="status", name="Game feedback", expected after: "Game started" */}
                   <div className="p-4 rounded-xl bg-slate-900 border border-slate-800">
                     <span className="text-xs text-slate-400 block mb-1">Live Notifications</span>
-                    <div className="text-sm font-medium text-emerald-400 min-h-[1.25rem]" data-setfarm-element-ref="E000004" role="status" aria-label="Game feedback" data-observable-refs="OBS_START_GAME_START_FEEDBACK"></div>
+                    <div className="text-sm font-medium text-emerald-400 min-h-[1.25rem]" data-setfarm-element-ref="E000004" role="status" aria-label="Game feedback" data-observable-refs="OBS_START_GAME_START_FEEDBACK" data-value={gameMessage}>{gameMessage}</div>
                   </div>
                 </div>
               </div>
